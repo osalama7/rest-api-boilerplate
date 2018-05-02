@@ -1,0 +1,23 @@
+{
+  "name": "4scotty-rest-api-boilerplate",
+  "version": "0.0.0",
+  "description": "starter boilerplate for 4scotty nodejs apis ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "nodejs",
+    "docker",
+    "REST"
+  ],
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "compression": "^1.5.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "morgan": "^1.8.0"
+  },
+  "author": "Osama Salama",
+  "license": "ISC"
+}
