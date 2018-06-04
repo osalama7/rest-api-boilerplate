@@ -1,11 +1,8 @@
 {
-  "name": "4scotty-rest-api-boilerplate",
+  "name": "rest-api-boilerplate",
   "version": "0.0.0",
-  "description": "starter boilerplate for 4scotty nodejs apis ",
+  "description": "starter boilerplate nodejs apis ",
   "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
   "keywords": [
     "nodejs",
     "docker",
@@ -19,5 +16,15 @@
     "morgan": "^1.8.0"
   },
   "author": "Osama Salama",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "cross-env": "^5.1.6",
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "nodemon": "^1.17.5"
+  },
+  "scripts": {
+    "start": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development nodemon ./index.js localhost 8181"
+  }
 }
