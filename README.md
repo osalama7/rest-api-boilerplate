@@ -7,6 +7,8 @@
 * Express
 * `nodemon`
 * `eslint-config-google`
+* `docker`
+* `docker-compose`
 
 
 ### Getting Started
@@ -16,4 +18,13 @@
 ```sh
 npm install
 npm start
+```
+
+* docker
+
+Build && Run
+
+```sh
+npm run dbuild
+npm run drun 
 ```
