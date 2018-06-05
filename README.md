@@ -9,6 +9,10 @@
 * `eslint-config-google`
 * `docker`
 * `docker-compose`
+* `mocha`
+* `chai`
+* `JSON schema`
+* `mongo-client`
 
 
 ### Getting Started
