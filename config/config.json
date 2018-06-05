@@ -1,6 +1,10 @@
 {
   "port": 8686,
+  "testPort" : 8585,
   "bodyLimit": "100kb",
   "corsHeaders": ["Link"],
-  "mongodb": ""
+  "mongodb": {
+    "url": "mongodb://localhost:27017",
+    "dbName": "rest-boilerplate-dc"
+  }
 }

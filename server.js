@@ -10,16 +10,37 @@ const colors = require('colors');
 const Config = require('./config/config.json');
 const app = new express();
 
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
+
+
+let dbConnection = null;
+
+dbConnection = MongoClient.connect(Config.mongodb.url, function(err, client) {
+	assert.equal(null, err);
+	console.log(colors.magenta("Mongodb connection successful"));
+
+	client.on('error', (err) => {
+		console.error(err);
+		process.exit();
+	});
+
+	return client.db(Config.mongodb.dbName);
+});
+
+
+
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
-app.listen(Config.port, (error) => {
+app.listen( process.env.NODE_ENV === 'test' ? Config.testPort: Config.port , (error) => {
 	if (!error) {
 		console.log(colors.yellow(`RestfulBoilerplate running: ${Config.port}! Build something amazing!`));
 	}
 });
 
-module.exports = app;
+module.exports = {app, dbConnection};

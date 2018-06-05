@@ -17,7 +17,7 @@ describe('NodeServer', () => {
 
 	describe('Run http server and test route', () => {
 		it('it should reach server', (done) =>{
-			chai.request(server)
+			chai.request(server.app)
 				.get('/')
 				.end((err, res) => {
 					res.should.have.status(200);

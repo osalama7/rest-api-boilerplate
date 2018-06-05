@@ -10,11 +10,12 @@
   ],
   "dependencies": {
     "body-parser": "^1.13.3",
+    "colors": "^1.3.0",
     "compression": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3",
-    "morgan": "^1.8.0",
-    "colors": "^1.3.0"
+    "mongodb": "^3.0.10",
+    "morgan": "^1.8.0"
   },
   "author": "Osama Salama",
   "license": "ISC",
@@ -33,7 +34,7 @@
   "scripts": {
     "start": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development nodemon ./server.js",
     "test-report": "nyc --reporter=lcov --reporter=text-lcov",
-    "test": "mocha ./api/src/test/*.test.js",
+    "test": "NODE_ENV=test mocha ./api/src/test/*.test.js",
     "dbuild": "build -t rest-api-boilerplate .",
     "drun": "docker run -p 4000:8686 rest-api-boilerplate"
   }
