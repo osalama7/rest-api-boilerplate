@@ -25,12 +25,16 @@
     "cross-env": "^5.1.6",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5"
   },
   "scripts": {
     "start": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development nodemon ./server.js",
-    "test": "nyc --reporter=lcov --reporter=text-lcov npm test",
+    "test-report": "nyc --reporter=lcov --reporter=text-lcov",
+    "test": "mocha ./api/src/test/*.test.js",
     "dbuild": "build -t rest-api-boilerplate .",
-    "drun":"docker run -p 4000:8686 rest-api-boilerplate"
+    "drun": "docker run -p 4000:8686 rest-api-boilerplate"
   }
 }

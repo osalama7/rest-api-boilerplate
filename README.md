@@ -22,9 +22,14 @@ npm start
 
 * docker
 
-Build && Run
+Build and run inside a docker container
 
 ```sh
 npm run dbuild
 npm run drun 
+```
+
+* Test 
+```sh
+npm test
 ```

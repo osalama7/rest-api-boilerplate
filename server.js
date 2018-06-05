@@ -21,3 +21,5 @@ app.listen(Config.port, (error) => {
 		console.log(colors.yellow(`RestfulBoilerplate running: ${Config.port}! Build something amazing!`));
 	}
 });
+
+module.exports = app;
