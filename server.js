@@ -28,14 +28,13 @@ let MongoClient = function () {
 		});
 };
 
-
-
 app.use(session({
 	secret: 'foo',
 	store: new MongoStore({ dbPromise: MongoClient() }),
 	resave: false, //don't save session if unmodified
 	saveUninitialized: false,
 }));
+
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
