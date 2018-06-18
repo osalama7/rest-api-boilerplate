@@ -15,7 +15,10 @@
     "cors": "^2.7.1",
     "express": "^4.13.3",
     "mongodb": "^3.0.10",
-    "morgan": "^1.8.0"
+    "morgan": "^1.8.0",
+    "ajv": "6.5.1",
+    "express-session": "1.15.6",
+    "connect-mongo": "2.0.1"
   },
   "author": "Osama Salama",
   "license": "ISC",
