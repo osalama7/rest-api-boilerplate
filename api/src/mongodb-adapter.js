@@ -12,7 +12,6 @@ module.exports.connect = async () => {
 	return MongoClient
 			.connect(Config.mongodb.url, {})
 			.then( connection => {
-
 				return connection;
 			})
 			.catch(function (err) {
