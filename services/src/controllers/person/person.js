@@ -24,11 +24,25 @@ console.log({validate});
 
 module.exports.addPerson = async ( person ) => {
 	let db = {};
-	MongoAdapter.connect().then((mClient) => {
-		db = mClient.db(Config.mongodb.dbName);
-		db.collection("person").add(person, (result) => {
-			console.log({result});
-			return result;
+	let result = {};
+
+	await MongoAdapter
+		.connect(Config.mongodb.url, {})
+		.then( connection => {
+			db = connection;
 		})
-	});
+		.catch(function (err) {
+			console.error(colors.red(`Could not connect to MongoDB! ${err}`));
+		});
+
+		const mongodbDb = db.db(Config.mongodb.dbName);
+		const personCollection = mongodbDb.collection('person');
+
+		result = await personCollection
+			.insertMany([person])
+			.catch((error) => {
+				console.error(colors.red(`Failed to insert document ${error}`));
+		});
+
+	return result;
 };
