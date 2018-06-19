@@ -27,5 +27,13 @@ describe('Person controller', () => {
 			done();
 		});
 	});
+	describe('Find all persons', () => {
+		it('It should connect to db get all persons', async (done) => {
+			let result = await PersonController.getAllPersons();
+			expect(result).to.be.an('Array');
+
+			done();
+		});
+	});
 
 });
