@@ -5,6 +5,7 @@ const Ajv = require('ajv');
 const Config = require('../../../../config/config.json');
 const MongoAdapter  = require('../../../../api/src/mongodb-adapter');
 const Person = require('../../models/schemas/person.json');
+const _ = require('lodash');
 let ajv = new Ajv({allErrors: true});
 
 let person = {
@@ -45,4 +46,26 @@ module.exports.addPerson = async ( person ) => {
 		});
 
 	return result;
+};
+
+module.exports.getAllPersons = async ( ) => {
+	let db = {};
+	let result = {};
+
+	await MongoAdapter
+			.connect(Config.mongodb.url, {})
+			.then( connection => {
+				db = connection;
+			})
+			.catch(function (err) {
+				console.error(colors.red(`Could not connect to MongoDB! ${err}`));
+			});
+
+	const mongodbDb = db.db(Config.mongodb.dbName);
+	const personCollection = mongodbDb.collection('person');
+
+	result = await personCollection.find();
+
+
+	return (result.toArray());
 };
