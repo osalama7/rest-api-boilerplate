@@ -40,6 +40,7 @@
     "test-report": "nyc --reporter=lcov --reporter=text-lcov",
     "test": "NODE_ENV=test mocha ./api/src/test/*.test.js ./services/test/controllers/*.test.js",
     "dbuild": "build -t rest-api-boilerplate .",
-    "drun": "docker run -p 4000:8686 rest-api-boilerplate"
+    "drun": "docker run -p 4000:8686 rest-api-boilerplate",
+    "complexityReport": "jscomplexity -p '{api/src/*.js, services/src/controllers/*.js,!config/**}'"
   }
 }
