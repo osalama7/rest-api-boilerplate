@@ -18,6 +18,7 @@ describe('Person controller', () => {
 
 	describe('Add a new person', () => {
 		it('It should connect to db and add a new person', async (done) => {
+
 			let result = await PersonController.addPerson({'foo':'bar'});
 			expect(result).to.be.ok;
 			expect(result).to.be.an('object');
@@ -25,6 +26,7 @@ describe('Person controller', () => {
 			done();
 		});
 	});
+
 	describe('Find all persons', () => {
 		it('It should connect to db get all persons', async (done) => {
 			let result = await PersonController.getAllPersons();
@@ -34,6 +36,19 @@ describe('Person controller', () => {
 			done();
 		});
 	});
+
+	describe('update a person', () => {
+		it('It should connect to db add a new person, and update it', async (done) => {
+			let addingResult = await PersonController.addPerson({foo:"bar"});
+			let updatedResult = await PersonController.updatePersonById(addingResult.ops[addingResult.ops.length - 1 ]._id, {"foo": "value"});
+
+			expect(updatedResult.matchedCount).to.equal(1);
+			expect(updatedResult.modifiedCount).to.equal(1);
+			expect(updatedResult).to.be.an('object').that.is.not.empty;
+			done();
+		});
+	});
+
 	describe('Delete one person', () => {
 		it('It should connect to db add a new person, and delete it', async (done) => {
 			let addingResult = await PersonController.addPerson({'foo':'bar'});
@@ -43,4 +58,5 @@ describe('Person controller', () => {
 			done();
 		});
 	});
+
 });
