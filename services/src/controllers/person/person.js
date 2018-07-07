@@ -17,14 +17,14 @@ let tempConnection = async () => {
 };
 
 tempConnection();
-module.exports.getAllPersons = async ( ) => {
+let getAllPersons = async ( ) => {
 	let result = [];
 	result = await personCollection.find();
 	return (result.toArray());
 };
 
 
-module.exports.addPerson = async ( person ) => {
+let addPerson = async ( person ) => {
 	let result = {};
 
 		result = await personCollection
@@ -35,27 +35,52 @@ module.exports.addPerson = async ( person ) => {
 
 	return result;
 };
-module.exports.getPersonById = async ( personId ) => {
+
+let getPersonById = async ( personId ) => {
 	let result = {};
 
 	let query = {"_id": new ObjectId( personId )};
-
 	result = await personCollection
 			.find(query)
-			.toArray();
+			.toArray()
+			.catch((err) => {
+				console.error(colors.red(`Failed to find document ${ err }`));
+			});
+
 
 	return result;
 };
 
-module.exports.deletePersonById = async ( personId ) => {
+let updatePersonById = async ( personId, personToUpdate ) => {
+
+	let result = {};
+
+	let updatePayload = {$set: personToUpdate};
+	let query = {"_id": new ObjectId( personId )};
+
+	result = await personCollection
+			.updateOne(query,  updatePayload)
+			.catch((err) => {
+				console.error(colors.red(`Failed to update document ${ err }`));
+	});
+
+
+	return result;
+};
+
+let deletePersonById = async ( personId ) => {
 	let result = {};
 
 	let query = {"_id": new ObjectId( personId )};
 
 	result = await personCollection
-			.deleteOne(query);
+			.deleteOne(query)
+			.catch((err) => {
+				console.error(colors.red(`Failed to delete document ${ err }`));
+			});
 
 
 	return result;
 };
 
+module.exports = { getAllPersons, addPerson, getPersonById, deletePersonById, updatePersonById };
