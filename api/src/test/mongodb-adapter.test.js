@@ -17,11 +17,14 @@ describe('Mongodb Adapter', () => {
 
 	describe('Connect to mongodb', () => {
 		it('It should connect to db', async (	done) => {
-			let connection = await MongoAdapter.connect()
-					.then( connection => {
-				return connection;
+			let connection = await MongoAdapter
+					.connect()
+					.catch((err) => {
+						console.log(err);
 			});
-			const db = connection.db('test');
+			const db = await connection
+					.db('test');
+			db.should.be.ok;
 			done();
 		});
 	});
