@@ -1,7 +1,7 @@
 {
   "name": "rest-api-boilerplate",
   "version": "0.0.0",
-  "description": "starter boilerplate nodejs apis ",
+  "description": "starter boilerplate nodejs apis",
   "main": "index.js",
   "keywords": [
     "nodejs",
@@ -29,6 +29,7 @@
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
     "cross-env": "^5.1.6",
+    "djv": "^2.1.0",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "lodash": "^4.17.10",
@@ -36,11 +37,12 @@
     "nodemon": "^1.17.5"
   },
   "scripts": {
-    "start": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development nodemon ./server.js",
+    "start": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=dev nodemon ./server.js",
     "test-report": "nyc --reporter=lcov --reporter=text-lcov",
     "test": "NODE_ENV=test mocha ./api/src/test/*.test.js ./services/test/controllers/*.test.js",
-    "dbuild": "build -t rest-api-boilerplate .",
-    "drun": "docker run -p 4000:8686 rest-api-boilerplate",
-    "complexityReport": "jscomplexity -p '{api/src/*.js, services/src/controllers/*.js,!config/**}'"
+    "dock-build": "build -t rest-api-boilerplate .",
+    "dock-run": "docker run -p 4000:8686 rest-api-boilerplate",
+    "complexity-report": "jscomplexity -p '{api/src/*.js, services/src/controllers/*.js,!config/**}'",
+    "count-lines": ""
   }
 }
