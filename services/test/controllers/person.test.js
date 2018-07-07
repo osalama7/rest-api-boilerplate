@@ -1,7 +1,5 @@
 'use strict';
 
-process.env.NODE_ENV = 'test';
-
 const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
@@ -30,10 +28,19 @@ describe('Person controller', () => {
 	describe('Find all persons', () => {
 		it('It should connect to db get all persons', async (done) => {
 			let result = await PersonController.getAllPersons();
+
 			expect(result).to.be.an('Array');
 
 			done();
 		});
 	});
+	describe('Delete one person', () => {
+		it('It should connect to db add a new person, and delete it', async (done) => {
+			let addingResult = await PersonController.addPerson({'foo':'bar'});
+			let deletedResult = await PersonController.deletePersonById(addingResult.ops[addingResult.ops.length - 1 ]._id);
 
+			expect(deletedResult.deletedCount).to.equal(1);
+			done();
+		});
+	});
 });
