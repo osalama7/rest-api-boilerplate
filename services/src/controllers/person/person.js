@@ -1,43 +1,31 @@
 'use strict';
 
-const Ajv = require('ajv');
+const colors = require('colors');
 
 const Config = require('../../../../config/config.json');
 const MongoAdapter  = require('../../../../api/src/mongodb-adapter');
+const ObjectId = require('mongodb').ObjectId;
 const Person = require('../../models/schemas/person.json');
 const _ = require('lodash');
-let ajv = new Ajv({allErrors: true});
+const server = require('./../../../../server');
 
-let person = {
-	"properties": {
-		"title" : {"type": "string"},
-		"firstName" : {"type": "string"},
-		"lastName" : {"type": "string"},
-		"age" : {
-			"type": "integer",
-			"minimum": 0
-		},
-	}
+
+let personCollection = {};
+let tempConnection = async () => {
+	let connection = await MongoAdapter.connect();
+	personCollection = await connection.db(Config.env.dev.mongodb.dbName).collection('person');
 };
 
-let validate = ajv.compile(person);
-console.log({validate});
+tempConnection();
+module.exports.getAllPersons = async ( ) => {
+	let result = [];
+	result = await personCollection.find();
+	return (result.toArray());
+};
+
 
 module.exports.addPerson = async ( person ) => {
-	let db = {};
 	let result = {};
-
-	await MongoAdapter
-		.connect(Config.mongodb.url, {})
-		.then( connection => {
-			db = connection;
-		})
-		.catch(function (err) {
-			console.error(colors.red(`Could not connect to MongoDB! ${err}`));
-		});
-
-		const mongodbDb = db.db(Config.mongodb.dbName);
-		const personCollection = mongodbDb.collection('person');
 
 		result = await personCollection
 			.insertMany([person])
@@ -47,25 +35,27 @@ module.exports.addPerson = async ( person ) => {
 
 	return result;
 };
-
-module.exports.getAllPersons = async ( ) => {
-	let db = {};
+module.exports.getPersonById = async ( personId ) => {
 	let result = {};
 
-	await MongoAdapter
-			.connect(Config.mongodb.url, {})
-			.then( connection => {
-				db = connection;
-			})
-			.catch(function (err) {
-				console.error(colors.red(`Could not connect to MongoDB! ${err}`));
-			});
+	let query = {"_id": new ObjectId( personId )};
 
-	const mongodbDb = db.db(Config.mongodb.dbName);
-	const personCollection = mongodbDb.collection('person');
+	result = await personCollection
+			.find(query)
+			.toArray();
 
-	result = await personCollection.find();
-
-
-	return (result.toArray());
+	return result;
 };
+
+module.exports.deletePersonById = async ( personId ) => {
+	let result = {};
+
+	let query = {"_id": new ObjectId( personId )};
+
+	result = await personCollection
+			.deleteOne(query);
+
+
+	return result;
+};
+
