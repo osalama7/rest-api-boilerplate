@@ -9,6 +9,7 @@ const colors = require('colors');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const djv = require('djv');
 
 const api = require('./api/src/index');
 const MongoAdapter = require('./api/src/mongodb-adapter');
@@ -16,23 +17,26 @@ const MongoAdapter = require('./api/src/mongodb-adapter');
 const Config = require('./config/config.json');
 const app = new express();
 
+const env = djv({
+	version: 'draft-06', // use json-schema draft-06
+	formats: { /*...*/ }, // custom formats @see #addFormat
+	errorHandler: () => { /*...*/ }, // custom error handler, @see #setErrorHandler
+});
 
-let mongoConnection = {};
+//todo add all schemas and validate
+const PersonSchema = require('./services/src/models/schemas/person.json');
 
-let MongoClient = function () {
-	return MongoAdapter.connect()
-			.then( connection => {
-			return connection.db(Config.mongodb.dbName);
-			}).catch( (err) =>{
-			console.log(err);
-		});
-};
+
+env.addSchema('test', PersonSchema);
+env.validate('test#/common', { type: 'common' });
+
+let mongoStore = new MongoStore({ dbPromise: MongoAdapter.connect() });
 
 app.use(session({
-	secret: 'foo',
-	store: new MongoStore({ dbPromise: MongoClient() }),
+	secret: 'foo cat',
+	saveUninitialized: false, // don't create session until something stored
 	resave: false, //don't save session if unmodified
-	saveUninitialized: false,
+	store: mongoStore
 }));
 
 app.use(compression());
@@ -41,10 +45,10 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
-app.listen( process.env.NODE_ENV === 'test' ? Config.testPort: Config.port , (error) => {
+app.listen( process.env.NODE_ENV === 'test' ? Config.env.test.port: Config.env.dev.port , (error) => {
 	if (!error) {
-		console.log(colors.yellow(`RestfulBoilerplate running: ${Config.port}! Build something amazing!`));
+		console.log(colors.yellow(`Rest Boilerplate running: ${Config.env.dev.port}! Build something amazing!`));
 	}
 });
 
-module.exports = { app };
+module.exports = { app, mongoStore };
