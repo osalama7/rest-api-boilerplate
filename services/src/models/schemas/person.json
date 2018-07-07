@@ -1,18 +1,12 @@
 {
-  "title": "Person",
-  "type": "object",
-  "properties": {
-    "firstName": {
-      "type": "string"
+  "common": {
+    "properties": {
+      "type": {
+        "enum": ["common"]
+      }
     },
-    "lastName": {
-      "type": "string"
-    },
-    "age": {
-      "description": "Age in years",
-      "type": "integer",
-      "minimum": 0
-    }
-  },
-  "required": ["firstName", "lastName"]
+    "required": [
+      "type"
+    ]
+  }
 }
