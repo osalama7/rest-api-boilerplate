@@ -8,9 +8,9 @@ const colors = require('colors');
 
 // Initialize Mongodb
 module.exports.connect = async () => {
-
-	return MongoClient
-			.connect(Config.mongodb.url, {})
+	let db = {};
+	db = await MongoClient
+			.connect(Config.env.dev.mongodb.url, {})
 			.then( connection => {
 				return connection;
 			})
@@ -18,13 +18,15 @@ module.exports.connect = async () => {
 				console.error(colors.red('Could not connect to MongoDB!'));
 				console.log(err);
 			});
-
+	return db;
 };
 
 module.exports.disconnect = (cb) => {
 	return MongoClient.connection.db
-			.close(function (err) {
-				console.info(colors.yellow('Disconnected from MongoDB.'));
+			.close( (err) => {
+
+				console.info(colors.yellow('Disconnected from MongoDB'));
+
 				return cb(err);
 			});
 };
