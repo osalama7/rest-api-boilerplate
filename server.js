@@ -3,8 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const compression =require('compression');
-
+const compression = require('compression');
+const Routes = require('./api/src/routes/index');
 const colors = require('colors');
 
 const session = require('express-session');
@@ -39,9 +39,11 @@ app.use(session({
 	store: mongoStore
 }));
 
+
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+app.use('/', Routes);
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
