@@ -4,7 +4,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const Config = require('../../../config/config.json');
-const PersonController = require('../../src/controllers/person/person');
+const PersonController = require('../../src/controllers/index').PersonController;
 
 const should = chai.should();
 
