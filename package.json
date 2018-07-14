@@ -38,7 +38,7 @@
     "nodemon": "^1.17.5"
   },
   "scripts": {
-    "start": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=dev nodemon $NODE_DEBUG_OPTION ./server.js",
+    "start": "NODE_ENV=dev nodemon $NODE_DEBUG_OPTION ./server.js",
     "test-report": "nyc --reporter=lcov --reporter=text-lcov",
     "test": "NODE_ENV=test mocha ./api/src/test/*.test.js ./services/test/controllers/*.test.js",
     "dock-build": "build -t rest-api-boilerplate .",
