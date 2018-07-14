@@ -1,52 +1,41 @@
 'use strict';
 
+const Config = process.env.NODE_ENV === 'test'
+		? require('./../../../../config/config.json').env.test
+		: require('./../../../../config/config.json').env.dev;
+
 const colors = require('colors');
-const mongodbServer = require('mongodb-core').Server;
-const Config = require('../../../../config/config.json');
-const MongoAdapter  = require('../../../../api/src/mongodb-adapter');
 const ObjectId = require('mongodb').ObjectId;
 const Person = require('../../models/schemas/person.json');
 const _ = require('lodash');
-const server = require('./../../../../server');
 
+let getAllPersons = async (db) => {
 
-
-let PersonCollection = {};
-let tempConnection = async () => {
-	let connection = await MongoAdapter.connect();
-	PersonCollection = await connection.db(Config.env.dev.mongodb.dbName).collection('person');
-};
-
-tempConnection();
-
-let getAllPersons = async () => {
-
-	let result = [];
-	try {
-		result = await PersonCollection.find().toArray();
-	} catch (err) {
-		console.log({err})
-	}
-
+	let PersonCollection = await db.collection('person');
+	let result;
+	result = await PersonCollection.find().toArray();
 
 	return (result);
 };
 
-let getOneRandomPerson = async (limit) => {
-	let result = {};
+let getOneRandomPerson = async (limit, db,) => {
+	let result;
+	let PersonCollection = await db.collection('person');
 	result = await PersonCollection.find().limit(limit).toArray();
 
 	return(result[0]);
 };
 
-// let getAllPersonsCursor = async ( ) => {
-// 	let result = [];
-// 	let cursor =
-// 	result = await PersonCollection.find();
-// 	return (result.toArray());
-// };
+let getAllPersonsCursor = async (db) => {
+	let PersonCollection = await db.collection('person');
+	let result;
 
-let addPerson = async ( person ) => {
+	result = await PersonCollection.find();
+	return (result.toArray());
+};
+
+let addPerson = async ( person, db ) => {
+	let PersonCollection = await db.collection('person');
 	let result = {};
 
 		result = await PersonCollection
@@ -58,7 +47,8 @@ let addPerson = async ( person ) => {
 	return result;
 };
 
-let getPersonById = async ( personId ) => {
+let getPersonById = async ( personId, db ) => {
+	let PersonCollection = await db.collection('person');
 	let result = {};
 
 	let query = {"_id": new ObjectId( personId )};
@@ -73,8 +63,8 @@ let getPersonById = async ( personId ) => {
 	return result;
 };
 
-let updatePersonById = async ( personId, personToUpdate ) => {
-
+let updatePersonById = async ( personId, personToUpdate, db ) => {
+	let PersonCollection = await db.collection('person');
 	let result = {};
 	let updatePayload = {$set: personToUpdate };
 	let query = {"_id": new ObjectId( personId )};
@@ -87,7 +77,8 @@ let updatePersonById = async ( personId, personToUpdate ) => {
 	return result;
 };
 
-let deletePersonById = async ( personId ) => {
+let deletePersonById = async ( personId, db ) => {
+	let PersonCollection = await db.collection('person');
 	let result = {};
 
 	let query = {"_id": new ObjectId( personId )};
