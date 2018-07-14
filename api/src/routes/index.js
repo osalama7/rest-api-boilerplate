@@ -1,4 +1,4 @@
 'use strict';
 const Person = require('./route-persons');
-
-module.exports = Person;
+const User = require('./route-users');
+module.exports = [Person, User];

@@ -1,0 +1,44 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "checked": {
+      "$id": "/properties/checked",
+      "type": "boolean",
+      "title": "The Checked Schema ",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "fullName": {
+      "$id": "/properties/fullName",
+      "type": "string",
+      "title": "The Fullname Schema ",
+      "default": "",
+      "examples": [
+        "Ahmed Salama"
+      ]
+    },
+    "age": {
+      "$id": "/properties/age",
+      "type": "string",
+      "title": "The Age Schema ",
+      "default": "",
+      "examples": [
+        "12"
+      ]
+    },
+    "password": {
+      "$id": "/properties/password",
+      "type": "string",
+      "title": "The Password Schema ",
+      "default": "",
+      "examples": [
+        "abs321t0f98349sd"
+      ]
+    }
+  }
+}

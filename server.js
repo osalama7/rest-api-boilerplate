@@ -4,15 +4,16 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const compression = require('compression');
-const Routes = require('./api/src/routes/index');
-
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
 const djv = require('djv');
+const compression = require('compression');
+const session = require('express-session');
+
+const Routes = require('./api/src/routes/index');
+const MongoStore = require('connect-mongo')(session);
+const MongoAdapter = require('./api/src/mongodb-adapter');
 
 const api = require('./api/src/index');
-const MongoAdapter = require('./api/src/mongodb-adapter');
+
 
 const Config = process.env.NODE_ENV === 'test'
 		? require('./config/config.json').env.test
