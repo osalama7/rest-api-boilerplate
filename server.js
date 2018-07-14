@@ -1,3 +1,4 @@
+const colors = require('colors');
 const http =  require('http');
 const express = require('express');
 const cors = require('cors');
@@ -5,7 +6,6 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const Routes = require('./api/src/routes/index');
-const colors = require('colors');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -14,7 +14,9 @@ const djv = require('djv');
 const api = require('./api/src/index');
 const MongoAdapter = require('./api/src/mongodb-adapter');
 
-const Config = require('./config/config.json');
+const Config = process.env.NODE_ENV === 'test'
+		? require('./config/config.json').env.test
+		: require('./config/config.json').env.dev;
 const app = new express();
 
 const env = djv({
@@ -25,32 +27,43 @@ const env = djv({
 
 //todo add all schemas and validate
 const PersonSchema = require('./services/src/models/schemas/person.json');
-
-
 env.addSchema('test', PersonSchema);
 env.validate('test#/common', { type: 'common' });
 
-let mongoStore = new MongoStore({ dbPromise: MongoAdapter.connect() });
-
-app.use(session({
-	secret: 'foo cat',
-	saveUninitialized: false, // don't create session until something stored
-	resave: false, //don't save session if unmodified
-	store: mongoStore
-}));
 
 
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
+
+
+
 app.use('/', Routes);
 
-app.get('/', (req, res) => res.send('Hello World!'));
-
-app.listen( process.env.NODE_ENV === 'test' ? Config.env.test.port: Config.env.dev.port , (error) => {
-	if (!error) {
-		console.log(colors.yellow(`Rest Boilerplate running: ${Config.env.dev.port}! Build something amazing!`));
-	}
+app.get('/', async (req, res) => {
+	res.status(200).send('Running');
 });
 
-module.exports = { app, mongoStore };
+app.listen(Config.port, async () => {
+	await MongoAdapter.connect();
+
+	let mongoStore = new MongoStore({ db: MongoAdapter.connection.db });
+
+	app.use(session({
+		secret: 'foo cat',
+		saveUninitialized: false, // don't create session until something stored
+		resave: false, //don't save session if unmodified
+		store: mongoStore
+	}));
+
+	console.log(colors.green(`Rest Boilerplate running: ${Config.port}! Build something amazing!`));
+});
+
+
+
+
+
+module.exports = { app } ;
+
+
+

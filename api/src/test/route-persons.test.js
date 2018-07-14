@@ -6,19 +6,23 @@ const chaiHttp = require('chai-http');
 const server = require('./../../../server');
 const should = chai.should();
 const PersonController = require('./../../../services/src/controllers/index').PersonController;
+const mongodb = require('../mongodb-adapter');
 
 chai.use(chaiHttp);
 
-describe('Person Api', () => {
-let testSample = {};
+describe('Person Api', async () => {
+	await mongodb.connect();
+	let testSample = {};
 
 	beforeEach( async (done) => {
-		testSample = await PersonController.getOneRandomPerson(1);
-
+		testSample = await PersonController.getOneRandomPerson(1, mongodb.connection.db).catch((err) => {
+			console.log(err);
+		});
+		done();
 	});
 
 	describe('Run http server and test Persons route', () => {
-		it.skip('it get all persons', async (done) =>{
+		it('it get all persons', async (done) => {
 
 			chai.request(server.app)
 					.get('/persons')
@@ -54,29 +58,26 @@ let testSample = {};
 
 		});
 
-		it('it should delete a person by Id', async (done) =>{
-			chai.request(server.app )
-					.delete('/person/' + testSample._id)
-					.end((result) => {
-						res.should.have.status(200);
-						done();
-					})
-					.catch((err) => {
-					});
-		});
-
-		it.skip('it should get a person by Id', async (done) =>{
+		it('it should get a person by Id', async (done) => {
 			chai.request(server.app)
 					.get('/person/' + testSample._id)
-					.end((res) => {
-						console.log({res});
+					.end((err, res) => {
+
 						res.should.have.status(200);
 						done();
 					})
-					.catch((err) => {
-
-					});
 		});
+
+		it.only('it should delete a person by Id', async (done) => {
+			chai.request(server.app )
+					.delete('/person/' + testSample._id)
+					.end((err, res) => {
+						res.should.have.status(200);
+						done();
+					})
+		});
+
+
 	});
 
 });
