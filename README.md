@@ -4,7 +4,7 @@
 
 ### Features
 
-* Express
+* `express`
 * `nodemon`
 * `eslint-config-google`
 * `docker`
@@ -12,7 +12,9 @@
 * `mocha`
 * `chai`
 * `JSON schema`
-* `mongo-client`
+* Native mongo client
+* JWT authentication
+
 
 
 ### Getting Started
