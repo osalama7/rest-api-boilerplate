@@ -10,7 +10,7 @@
       "tokenExpiresIn": "86400",
       "mongodb": {
         "url": "mongodb://localhost:27017/rest-boilerplate-dc",
-        "dbName": "rest-boilerplate-dc"
+        "dbName": "twitterdb03"
       }
     },
     "test": {
@@ -22,7 +22,19 @@
       "passSecret": "nodeofnodes",
       "mongodb": {
         "url": "mongodb://localhost:27017",
-        "dbName": "test"
+        "dbName": "twitterdb03"
+      }
+    },
+    "hackathon": {
+      "port": 8181,
+      "bodyLimit": "100kb",
+      "corsHeaders": [
+        "Link"
+      ],
+      "passSecret": "nodeofnodes",
+      "mongodb": {
+        "url": "mongodb://localhost:27017",
+        "dbName": "twitterdb03"
       }
     }
   }

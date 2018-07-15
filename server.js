@@ -9,6 +9,8 @@ const compression = require('compression');
 const session = require('express-session');
 
 const Routes = require('./api/src/routes/index');
+const hackathonRoute = require('./services/src/twitter-graph-hackathon/tweets-api');
+Routes.push(hackathonRoute);
 const MongoStore = require('connect-mongo')(session);
 const MongoAdapter = require('./api/src/mongodb-adapter');
 

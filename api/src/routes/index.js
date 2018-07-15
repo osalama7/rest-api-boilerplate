@@ -1,4 +1,5 @@
 'use strict';
 const Person = require('./route-persons');
 const User = require('./route-users');
-module.exports = [Person, User];
+const AuthetnicateUser = require('./authenticate-middleware');
+module.exports = [User, Person];

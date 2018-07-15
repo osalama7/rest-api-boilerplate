@@ -19,12 +19,15 @@
     "cors": "^2.7.1",
     "express": "^4.13.3",
     "express-session": "1.15.6",
+    "graph.js": "^1.21.1",
     "mongodb": "^3.0.10",
-    "morgan": "^1.8.0"
+    "morgan": "^1.8.0",
+    "uuid": "^3.3.2"
   },
   "author": "Osama Salama",
   "license": "ISC",
   "devDependencies": {
+    "@dagrejs/graphlib": "^2.1.4",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.9.1",
     "babel-preset-env": "^1.7.0",
